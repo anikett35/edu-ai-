@@ -28,8 +28,6 @@ from fastapi.exceptions import RequestValidationError
 
 from core.config import settings
 from core.database import connect_db, close_db
-from services.file_service import get_embedding_model
-from services.ml_service import get_difficulty_classifier, get_score_predictor
 
 # ── Routers ──────────────────────────────────────────────────────────────────
 from routers import auth, teacher, tutor, quiz, analytics, subjects, intervention
@@ -62,15 +60,8 @@ async def lifespan(app: FastAPI):
     # 2. Connect MongoDB
     await connect_db()
 
-    # 3. Pre-load ML models (blocking, but runs once at startup)
-    logger.info("🤖  Loading ML models…")
-    get_difficulty_classifier()
-    get_score_predictor()
-
-    # 4. Pre-load embedding model
-    logger.info("🔢  Loading embedding model…")
-    get_embedding_model()
-
+    # ML models and embedding model load lazily on first request
+    # (avoids long startup times / port-binding timeout on Render free tier)
     logger.info("✅  EduAI is ready to serve requests")
     yield
 

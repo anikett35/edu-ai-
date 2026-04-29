@@ -57,11 +57,14 @@ async def lifespan(app: FastAPI):
     Path(settings.upload_dir).mkdir(parents=True, exist_ok=True)
     logger.info("📁  Upload directory: %s", settings.upload_dir)
 
-    # 2. Connect MongoDB
-    await connect_db()
+    # 2. Connect MongoDB (non-fatal — server still starts if DB is unreachable)
+    try:
+        await connect_db()
+    except Exception as exc:
+        logger.error("❌  MongoDB connection FAILED: %s", exc)
+        logger.warning("⚠️  Server starting without DB — API calls will fail until DB is reachable")
 
     # ML models and embedding model load lazily on first request
-    # (avoids long startup times / port-binding timeout on Render free tier)
     logger.info("✅  EduAI is ready to serve requests")
     yield
 

@@ -268,9 +268,7 @@ export default function TutorPage() {
                     marginBottom:"14px", flexShrink:0 }}>
         <div>
           <h1 className="font-display font-bold text-2xl text-gray-900">AI Tutor</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
-            Powered by RAG + Ollama · answers from your course notes
-          </p>
+          
         </div>
         <button onClick={() => setShowHistory(p => !p)} style={{
           padding:"7px 14px", borderRadius:"10px",

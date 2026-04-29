@@ -1,7 +1,7 @@
 // src/pages/Dashboard/TeacherDashboard.jsx
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { teacherService, analyticsService } from "../../api/services";
+import { teacherService, analyticsService, interventionService } from "../../api/services";
 import { useAuth } from "../../context/AuthContext";
 import { PageLoader, ErrorMessage } from "../../components/common/LoadingSpinner";
 import StatsCard from "../../components/common/StatsCard";
@@ -14,6 +14,7 @@ export default function TeacherDashboard() {
   const [leaderboard,  setLeaderboard]  = useState([]);
   const [loading,      setLoading]      = useState(true);
   const [error,        setError]        = useState("");
+  const [riskSummary,  setRiskSummary]  = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -24,6 +25,10 @@ export default function TeacherDashboard() {
         ]);
         setMaterials(matRes.data || []);
         setLeaderboard(lbRes.data.leaderboard || []);
+        try {
+          const riskRes = await interventionService.getDashboard("WF3");
+          setRiskSummary(riskRes.data?.summary || null);
+        } catch {}
       } catch (e) {
         setError("Could not load dashboard data.");
       } finally {
@@ -101,6 +106,32 @@ export default function TeacherDashboard() {
           subColor="text-green-500"
         />
       </div>
+
+      {/* Intervention summary */}
+      {riskSummary && (riskSummary.WF3 > 0 || riskSummary.WF4 > 0) && (
+        <div style={{ borderRadius:"14px", padding:"14px 18px",
+                      background:"#fef2f2", border:"1px solid #fecaca",
+                      display:"flex", alignItems:"center", gap:"12px", flexWrap:"wrap" }}>
+          <span style={{ fontSize:"22px" }}>🚨</span>
+          <div style={{ flex:1 }}>
+            <p style={{ fontWeight:"700", fontSize:"13px", color:"#dc2626", margin:"0 0 2px" }}>
+              Students Requiring Intervention
+            </p>
+            <p style={{ fontSize:"12px", color:"#991b1b", margin:0 }}>
+              {riskSummary.WF4 > 0 && `${riskSummary.WF4} CRITICAL · `}
+              {riskSummary.WF3 > 0 && `${riskSummary.WF3} HIGH`}
+              {" — immediate action required"}
+            </p>
+          </div>
+          <a href="/intervention" style={{
+            padding:"7px 14px", borderRadius:"9px", textDecoration:"none",
+            background:"#dc2626", color:"white",
+            fontSize:"12px", fontWeight:"700",
+          }}>
+            View Dashboard →
+          </a>
+        </div>
+      )}
 
       {/* Charts + Materials */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

@@ -1,7 +1,7 @@
 // src/pages/Dashboard/StudentDashboard.jsx
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { analyticsService, quizService } from "../../api/services";
+import { analyticsService, quizService, interventionService } from "../../api/services";
 import { useAuth } from "../../context/AuthContext";
 import StatsCard from "../../components/common/StatsCard";
 import { PageLoader, ErrorMessage } from "../../components/common/LoadingSpinner";
@@ -33,6 +33,7 @@ export default function StudentDashboard() {
   const [history,  setHistory]  = useState([]);
   const [loading,  setLoading]  = useState(true);
   const [error,    setError]    = useState("");
+  const [risk,     setRisk]     = useState(null);
 
   useEffect(() => {
     if (!user?.user_id) return;
@@ -106,11 +107,46 @@ export default function StudentDashboard() {
           transition:"all 0.15s", flexShrink:0, position:"relative",
           fontFamily:"Sora,sans-serif",
         }}>
-         
+          🤖 Ask AI Tutor
         </Link>
       </div>
 
       <ErrorMessage message={error} />
+
+      {/* Risk alert banner */}
+      {risk && risk.tier !== "WF1" && (
+        <div style={{
+          borderRadius:"14px", padding:"14px 18px",
+          background: risk.tier === "WF4" ? "#fef2f2" : risk.tier === "WF3" ? "#fff7ed" : "#fefce8",
+          border: `1px solid ${risk.tier === "WF4" ? "#fecaca" : risk.tier === "WF3" ? "#fed7aa" : "#fde68a"}`,
+          display:"flex", alignItems:"center", gap:"12px", flexWrap:"wrap",
+        }}>
+          <span style={{ fontSize:"22px" }}>
+            {risk.tier === "WF4" ? "🚨" : risk.tier === "WF3" ? "🔶" : "⚠️"}
+          </span>
+          <div style={{ flex:1 }}>
+            <p style={{ fontWeight:"700", fontSize:"13px", margin:"0 0 2px",
+                        color: risk.tier === "WF4" ? "#dc2626" : risk.tier === "WF3" ? "#ea580c" : "#d97706" }}>
+              {risk.tier === "WF4"
+                ? "URGENT: Academic counselor intervention required"
+                : risk.tier === "WF3"
+                ? "HIGH RISK: Faculty review has been triggered"
+                : "ACTION NEEDED: Study reminders & quiz recommendations active"}
+            </p>
+            <p style={{ fontSize:"12px", margin:0,
+                        color: risk.tier === "WF4" ? "#991b1b" : risk.tier === "WF3" ? "#9a3412" : "#92400e" }}>
+              Risk score: {risk.risk_score}/100 · {risk.action}
+            </p>
+          </div>
+          <a href="/intervention" style={{
+            padding:"7px 14px", borderRadius:"9px", textDecoration:"none",
+            background: risk.tier === "WF4" ? "#dc2626" : risk.tier === "WF3" ? "#ea580c" : "#d97706",
+            color:"white", fontSize:"12px", fontWeight:"700", flexShrink:0,
+          }}>
+            View Details →
+          </a>
+        </div>
+      )}
 
       {/* Stats row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

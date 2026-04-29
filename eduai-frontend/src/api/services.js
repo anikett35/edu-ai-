@@ -74,6 +74,17 @@ export const subjectsService = {
 };
 
 // ══════════════════════════════════════════════════════════════════════════════
+// INTERVENTION  →  /intervention/*
+// ══════════════════════════════════════════════════════════════════════════════
+export const interventionService = {
+  getRisk:       (studentId)             => api.get(`/intervention/risk/${studentId}`),
+  getDashboard:  (minTier = "WF2")       => api.get("/intervention/dashboard", { params: { min_tier: minTier } }),
+  acknowledge:   (studentId, notes = "") => api.post(`/intervention/acknowledge/${studentId}`, {}, { params: { notes } }),
+  resolve:       (recordId,  notes = "") => api.post(`/intervention/resolve/${recordId}`,  {}, { params: { notes } }),
+  history:       (studentId)             => api.get(`/intervention/history/${studentId}`),
+};
+
+// ══════════════════════════════════════════════════════════════════════════════
 // ML  →  /ml/*
 // ══════════════════════════════════════════════════════════════════════════════
 export const mlService = {

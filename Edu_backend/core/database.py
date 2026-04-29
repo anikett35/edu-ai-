@@ -28,7 +28,7 @@ async def connect_db() -> None:
     global _client, _db
     _client = AsyncIOMotorClient(settings.mongo_uri)
     _db = _client[settings.mongo_db_name]
-    logger.info("✅  MongoDB Atlas connected → database: %s", settings.mongo_db_name)
+    logger.info("✅ MongoDB Atlas connected → database: %s", settings.mongo_db_name)
 
     # Create indexes on first connect
     await _ensure_indexes()

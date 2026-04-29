@@ -30,6 +30,7 @@ const icons = {
   tutor:      "M12 2a9 9 0 110 18A9 9 0 0112 2zm0 4v4l3 3",
   materials:  "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5l2 2h5a2 2 0 012 2v14a2 2 0 01-2 2z",
   manage:     "M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4",
+  intervention:"M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z",
   quiz:       "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2 M9 5a2 2 0 002 2h2a2 2 0 002-2 M9 5a2 2 0 012-2h2a2 2 0 012 2 M12 12h.01 M12 16h.01",
   analytics:  "M18 20V10 M12 20V4 M6 20v-6",
   upload:     "M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4 M17 8l-5-5-5 5 M12 3v12",
@@ -45,8 +46,9 @@ const studentLinks = [
   { to: "/tutor",     label: "AI Tutor",  icon: "tutor"     },
   { to: "/materials", label: "Materials", icon: "materials" },
   { to: "/quiz",      label: "Quiz",      icon: "quiz"      },
-  { to: "/analytics", label: "Analytics", icon: "analytics" },
-  { to: "/profile",   label: "Profile",   icon: "profile"   },
+  { to: "/analytics",   label: "Analytics",    icon: "analytics"    },
+  { to: "/intervention",label: "Risk Check",   icon: "intervention" },
+  { to: "/profile",     label: "Profile",      icon: "profile"      },
 ];
 
 const teacherLinks = [
@@ -56,8 +58,9 @@ const teacherLinks = [
   { to: "/materials",       label: "Materials",   icon: "materials" },
   { to: "/upload",    label: "Upload",    icon: "upload"    },
   { to: "/quiz",      label: "Quiz",      icon: "quiz"      },
-  { to: "/analytics", label: "Analytics", icon: "analytics" },
-  { to: "/profile",   label: "Profile",   icon: "profile"   },
+  { to: "/analytics",   label: "Analytics",    icon: "analytics"    },
+  { to: "/intervention",label: "Risk Check",   icon: "intervention" },
+  { to: "/profile",     label: "Profile",      icon: "profile"      },
 ];
 
 export default function Sidebar() {

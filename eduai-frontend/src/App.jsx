@@ -15,7 +15,8 @@ import AnalyticsPage  from "./pages/Analytics/AnalyticsPage";
 import UploadPage     from "./pages/Upload/UploadPage";
 import ProfilePage    from "./pages/Profile/ProfilePage";
 import MaterialsPage      from "./pages/Materials/MaterialsPage";
-import ManageSubjectsPage from "./pages/Subjects/ManageSubjectsPage";
+import ManageSubjectsPage  from "./pages/Subjects/ManageSubjectsPage";
+import InterventionPage    from "./pages/Intervention/InterventionPage";
 
 // ── Redirect root based on auth state ────────────────────────────────────────
 function RootRedirect() {
@@ -64,6 +65,9 @@ export default function App() {
 
           {/* Materials — both roles */}
           <Route path="/materials" element={<Page><MaterialsPage /></Page>} />
+
+          {/* Intervention — both roles */}
+          <Route path="/intervention" element={<Page><InterventionPage /></Page>} />
 
           {/* Manage subjects — teacher only */}
           <Route path="/manage-subjects"

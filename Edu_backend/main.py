@@ -32,7 +32,7 @@ from services.file_service import get_embedding_model
 from services.ml_service import get_difficulty_classifier, get_score_predictor
 
 # ── Routers ──────────────────────────────────────────────────────────────────
-from routers import auth, teacher, tutor, quiz, analytics, subjects
+from routers import auth, teacher, tutor, quiz, analytics, subjects, intervention
 
 # ── Logging ──────────────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -157,6 +157,7 @@ app.include_router(tutor.router)
 app.include_router(quiz.router)
 app.include_router(analytics.router)
 app.include_router(subjects.router)
+app.include_router(intervention.router)
 
 
 # ════════════════════════════════════════════════════════════════════════════
